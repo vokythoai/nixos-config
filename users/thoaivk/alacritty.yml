@@ -14,9 +14,9 @@ cursor:
   style: Block
 
 font:
-  size: 13.0
+  size: 12.0
   normal:
-    family: "Monaco for Powerline"
+    family: "ComicShannsMono Nerd Font Mono"
 
 key_bindings:
   - { key: K, mods: Command, action: ClearHistory }

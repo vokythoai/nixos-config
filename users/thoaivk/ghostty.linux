@@ -1,0 +1,98 @@
+# Ghostty Terminal Configuration with Catppuccin Mocha Theme
+
+# Shell
+command = bash -l -c nu
+
+# Font Configuration
+font-family = JetBrains Mono Nerd Font
+font-size = 12
+font-feature = ss01
+font-feature = ss02
+font-feature = ss03
+font-feature = ss05
+font-feature = cv01
+font-feature = cv02
+
+# Appearance
+background-opacity = 0.95
+background-blur-radius = 20
+window-decoration = true
+window-padding-x = 10
+window-padding-y = 10
+
+# macOS Specific
+macos-non-native-fullscreen = visible-menu
+macos-option-as-alt = left
+
+# Mouse
+mouse-hide-while-typing = true
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# CATPPUCCIN MOCHA THEME
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Base colors
+background = 1e1e2e
+foreground = cdd6f4
+
+# Selection colors
+selection-background = 585b70
+selection-foreground = cdd6f4
+
+# Cursor colors
+cursor-color = f5e0dc
+cursor-text = 1e1e2e
+
+# Normal colors
+palette = 0=#45475a
+palette = 1=#f38ba8
+palette = 2=#a6e3a1
+palette = 3=#f9e2af
+palette = 4=#89b4fa
+palette = 5=#f5c2e7
+palette = 6=#94e2d5
+palette = 7=#bac2de
+
+# Bright colors
+palette = 8=#585b70
+palette = 9=#f38ba8
+palette = 10=#a6e3a1
+palette = 11=#f9e2af
+palette = 12=#89b4fa
+palette = 13=#f5c2e7
+palette = 14=#94e2d5
+palette = 15=#a6adc8
+
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# KEY BINDINGS (macOS-style for VM)
+#━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Copy/Paste
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+keybind = super+shift+c=copy_to_clipboard
+keybind = super+shift+v=paste_from_clipboard
+
+# Font size
+keybind = super+equal=increase_font_size:1
+keybind = super+minus=decrease_font_size:1
+keybind = super+zero=reset_font_size
+
+# Window management
+keybind = super+q=quit
+keybind = super+shift+comma=reload_config
+keybind = super+k=clear_screen
+keybind = super+n=new_window
+keybind = super+w=close_surface
+keybind = super+shift+w=close_window
+
+# Tab management
+keybind = super+t=new_tab
+keybind = super+shift+left_bracket=previous_tab
+keybind = super+shift+right_bracket=next_tab
+
+# Split management
+keybind = super+d=new_split:right
+keybind = super+shift+d=new_split:down
+keybind = super+right_bracket=goto_split:next
+keybind = super+left_bracket=goto_split:previous

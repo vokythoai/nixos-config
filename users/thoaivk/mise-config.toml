@@ -1,0 +1,49 @@
+# Mise configuration file
+# This file configures the mise version manager for managing multiple runtime versions
+
+[settings]
+# Enable experimental features
+experimental = true
+
+# Auto-install tools when entering directories with .mise.toml or .tool-versions
+auto_install = true
+
+# Use the mise task runner
+task_output = "prefix"
+
+# Plugin aliases for easier installation
+[alias]
+# Ruby aliases
+ruby = "ruby"
+
+# Node.js aliases
+node = "node"
+nodejs = "node"
+
+# Go aliases
+go = "go"
+golang = "go"
+
+# Python aliases
+python = "python"
+py = "python"
+
+# Rust (not via mise, use system rustup)
+# rust = "rust"
+
+[tools]
+# Global default tool versions (can be overridden per-project)
+# Commented out by default - set per-project instead
+
+# ruby = "3.3.0"
+# node = "22.0.0"
+# go = "1.22.0"
+# python = "3.12.0"
+
+[env]
+# Global environment variables
+# These will be set whenever mise is active
+
+# Uncomment to set custom paths
+# MISE_DATA_DIR = "$HOME/.local/share/mise"
+# MISE_CACHE_DIR = "$HOME/.cache/mise"

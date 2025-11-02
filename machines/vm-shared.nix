@@ -3,7 +3,6 @@
 {
   imports = [
     ../modules/specialization/plasma.nix
-    ../modules/specialization/i3.nix
     ../modules/specialization/gnome-ibus.nix
   ];
 
@@ -17,6 +16,19 @@
       keep-outputs = true
       keep-derivations = true
     '';
+
+    # Automatic garbage collection
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+
+    # Optimize nix store automatically (deduplicate files)
+    optimise = {
+      automatic = true;
+      dates = [ "weekly" ];
+    };
 
     # public binary cache that I use for all my derivations. You can keep
     # this, use your own, or toss it. Its typically safe to use a binary cache
@@ -34,6 +46,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.configurationLimit = 10;  # Only show last 10 generations in boot menu
   boot.loader.efi.canTouchEfiVariables = true;
 
   # VMware, Parallels both only support this being 0 otherwise you see
@@ -44,7 +57,7 @@
   networking.hostName = "dev";
 
   # Set your time zone.
-  time.timeZone = "America/Los_Angeles";
+  time.timeZone = "Asia/Ho_Chi_Minh";
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -114,11 +127,16 @@
     gtkmm3
   ];
 
-  # Our default non-specialised desktop environment.
+  # GNOME Desktop Environment (default desktop)
+  # This is enabled when specialisations exist but you boot into the default
   services.xserver = lib.mkIf (config.specialisation != {}) {
     enable = true;
     xkb.layout = "us";
+
+    # Enable GNOME Desktop
     desktopManager.gnome.enable = true;
+
+    # Use GDM as display manager
     displayManager.gdm.enable = true;
   };
 
