@@ -30,6 +30,7 @@ map("n", "<Leader>dt", "<cmd>lua vim.cmd('RustLsp testables')<CR>", { desc = "De
 -- Copy current file path
 map("n", "<Leader>cp", function()
   local path = vim.fn.expand("%:p")
-  vim.fn.setreg("+", path)
+  -- Use OSC 52 to copy to system clipboard
+  require("vim.ui.clipboard.osc52").copy("+")({path})
   vim.notify("Copied: " .. path, vim.log.levels.INFO)
 end, { desc = "Copy file path" })

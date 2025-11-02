@@ -93,6 +93,7 @@ in {
     pkgs.gh
     pkgs.htop
     pkgs.jq
+    pkgs.lsof
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
@@ -128,6 +129,7 @@ in {
     pkgs.libffi
     pkgs.libyaml
     pkgs.ncurses
+    pkgs.zstd
 
     # Rust Development (keep for system tools that need rust)
     pkgs.rustc
@@ -236,9 +238,10 @@ in {
     MISE_NODE_VERIFY = "0";
 
     # Build environment for mise
-    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.zlib.dev}/lib/pkgconfig:${pkgs.readline.dev}/lib/pkgconfig:${pkgs.libffi.dev}/lib/pkgconfig:${pkgs.libyaml.dev}/lib/pkgconfig:${pkgs.ncurses.dev}/lib/pkgconfig";
-    CFLAGS = "-I${pkgs.openssl.dev}/include -I${pkgs.zlib.dev}/include -I${pkgs.readline.dev}/include -I${pkgs.libyaml.dev}/include -I${pkgs.ncurses.dev}/include";
-    LDFLAGS = "-L${pkgs.openssl.out}/lib -L${pkgs.zlib.out}/lib -L${pkgs.readline.out}/lib -L${pkgs.libyaml.out}/lib -L${pkgs.ncurses.out}/lib";
+    PKG_CONFIG_PATH = "${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.zlib.dev}/lib/pkgconfig:${pkgs.readline.dev}/lib/pkgconfig:${pkgs.libffi.dev}/lib/pkgconfig:${pkgs.libyaml.dev}/lib/pkgconfig:${pkgs.ncurses.dev}/lib/pkgconfig:${pkgs.mysql80}/lib/pkgconfig:${pkgs.zstd.dev}/lib/pkgconfig:${pkgs.curl.dev}/lib/pkgconfig";
+    CFLAGS = "-I${pkgs.openssl.dev}/include -I${pkgs.zlib.dev}/include -I${pkgs.readline.dev}/include -I${pkgs.libyaml.dev}/include -I${pkgs.ncurses.dev}/include -I${pkgs.mysql80}/include/mysql -I${pkgs.zstd.dev}/include -I${pkgs.curl.dev}/include";
+    LDFLAGS = "-L${pkgs.openssl.out}/lib -L${pkgs.zlib.out}/lib -L${pkgs.readline.out}/lib -L${pkgs.libyaml.out}/lib -L${pkgs.ncurses.out}/lib -L${pkgs.mysql80}/lib -L${pkgs.zstd.out}/lib -L${pkgs.curl.out}/lib";
+    LD_LIBRARY_PATH = "${pkgs.openssl.out}/lib:${pkgs.zlib.out}/lib:${pkgs.readline.out}/lib:${pkgs.libyaml.out}/lib:${pkgs.ncurses.out}/lib:${pkgs.mysql80}/lib:${pkgs.zstd.out}/lib:${pkgs.curl.out}/lib";
 
     # Docker
     DOCKER_BUILDKIT = "1";
