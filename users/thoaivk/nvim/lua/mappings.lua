@@ -27,10 +27,14 @@ map("n", "<Leader>dr", "<cmd>lua require'dap'.run_last()<CR>", { desc = "Debugge
 -- rustaceanvim
 map("n", "<Leader>dt", "<cmd>lua vim.cmd('RustLsp testables')<CR>", { desc = "Debugger testables" })
 
--- Copy current file path
+-- Copy current file path to system clipboard and tmux buffer
 map("n", "<Leader>cp", function()
   local path = vim.fn.expand("%:p")
-  -- Use OSC 52 to copy to system clipboard
-  require("vim.ui.clipboard.osc52").copy("+")({path})
+  -- Copy to system clipboard (uses unnamedplus register which will use wl-copy if available)
+  vim.fn.setreg("+", path)
+  -- Also copy to tmux buffer for pasting within tmux with Ctrl-a + ]
+  if vim.env.TMUX then
+    vim.fn.system("tmux set-buffer -- " .. vim.fn.shellescape(path))
+  end
   vim.notify("Copied: " .. path, vim.log.levels.INFO)
 end, { desc = "Copy file path" })

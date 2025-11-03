@@ -189,6 +189,7 @@ in {
 
     # Clipboard tools (for Neovim clipboard support)
     pkgs.xclip        # X11 clipboard
+    pkgs.xsel         # X11 clipboard (alternative)
     pkgs.wl-clipboard # Wayland clipboard
 
     # LSP Servers (for Neovim NvChad)
@@ -563,7 +564,30 @@ in {
 
     plugins = with pkgs.tmuxPlugins; [
       sensible
-      yank
+      {
+        plugin = yank;
+        extraConfig = ''
+          # tmux-yank configuration for OSC 52 clipboard (works over SSH)
+          set -g @yank_selection 'clipboard'
+          set -g @yank_selection_mouse 'clipboard'
+
+          # Copy to both tmux buffer AND system clipboard
+          set -g @yank_with_mouse on
+
+          # Use OSC 52 for clipboard (works over SSH without X11 forwarding)
+          # This is the recommended approach for remote/SSH environments
+          set -g @yank_action 'copy-pipe-no-clear'
+
+          # For SSH environments: OSC 52 is preferred
+          # For local environments with display servers: auto-detect clipboard tools
+          # tmux-yank will auto-detect in this priority:
+          # 1. OSC 52 (if terminal supports it)
+          # 2. pbcopy/pbpaste (macOS)
+          # 3. wl-copy/wl-paste (Wayland)
+          # 4. xclip (X11)
+          # 5. xsel (X11 fallback)
+        '';
+      }
       {
         plugin = resurrect;
         extraConfig = ''
