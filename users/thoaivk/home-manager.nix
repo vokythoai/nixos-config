@@ -552,7 +552,7 @@ in {
 
   programs.tmux = {
     enable = true;
-    terminal = "tmux-256color";
+    terminal = "screen-256color";  # Use screen-256color for better OSC 52 compatibility
     prefix = "C-a";
     baseIndex = 1;
     escapeTime = 0;

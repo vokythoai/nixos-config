@@ -25,21 +25,42 @@ else
   has_display = has_wayland or has_x11
 end
 
--- For SSH/tmux environments (like SSH to NixOS VM), use OSC 52
+-- For SSH/tmux environments (like SSH to NixOS VM), use OSC 52 + tmux
 -- OSC 52 is a terminal escape sequence that allows clipboard access without X11/Wayland
 if in_ssh or (in_tmux and not has_display) then
-  -- Use native Neovim OSC 52 support (Neovim 0.10+)
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-    },
-    paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-    },
-  }
+  if in_tmux then
+    -- When inside tmux, use tmux clipboard provider with OSC 52
+    -- Copy: Use tmux load-buffer -w which sends OSC 52 to the terminal
+    -- Paste: Use tmux refresh-client -l to fetch clipboard, then save-buffer to paste
+    local copy = { "tmux", "load-buffer", "-w", "-" }
+    local paste = { "bash", "-c", "tmux refresh-client -l && sleep 0.05 && tmux save-buffer -" }
+
+    vim.g.clipboard = {
+      name = "tmux with OSC 52",
+      copy = {
+        ["+"] = copy,
+        ["*"] = copy,
+      },
+      paste = {
+        ["+"] = paste,
+        ["*"] = paste,
+      },
+      cache_enabled = 0,
+    }
+  else
+    -- Not in tmux, use pure OSC 52
+    vim.g.clipboard = {
+      name = "OSC 52",
+      copy = {
+        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+      },
+      paste = {
+        ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+      },
+    }
+  end
 -- For local systems with display servers, use traditional clipboard tools
 elseif vim.fn.has("mac") == 1 then
   -- macOS: use pbcopy/pbpaste
