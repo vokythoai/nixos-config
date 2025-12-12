@@ -153,6 +153,15 @@
   services.openssh.settings.PasswordAuthentication = true;
   services.openssh.settings.PermitRootLogin = "no";
 
+  # Enable MySQL service
+  services.mysql = {
+    enable = true;
+    package = pkgs.mysql80;
+    # Ensure MySQL starts at boot
+    ensureDatabases = [ ];  # Add any databases you want created automatically
+    ensureUsers = [ ];      # Add any users you want created automatically
+  };
+
   # Enable flatpak. I don't use any flatpak apps but I do sometimes
   # test them so I keep this enabled.
   services.flatpak.enable = true;
